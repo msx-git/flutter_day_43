@@ -18,7 +18,7 @@ class ClockPainter extends CustomPainter {
     /// Clock stroke
     final clockStrokePaint = Paint();
     clockStrokePaint.style = PaintingStyle.stroke;
-    clockStrokePaint.strokeWidth = 12;
+    clockStrokePaint.strokeWidth = 20;
     clockStrokePaint.color = const Color(0xff9ea2bd);
     canvas.drawCircle(
         Offset(size.width / 2, size.height / 2), 120, clockStrokePaint);
@@ -37,6 +37,33 @@ class ClockPainter extends CustomPainter {
       double endY = center.dy + (radius - 10) * sin(angle);
       canvas.drawLine(
           Offset(startX, startY), Offset(endX, endY), indicatorPaint);
+    }
+
+    /// Draw the numbers
+    TextPainter textPainter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
+
+    for (int i = 1; i <= 12; i++) {
+      double angle =
+          (2 * pi * (i - 3)) / 12; // Adjust the starting position to 12 o'clock
+      double x = center.dx +
+          (radius - 30) * cos(angle); // Adjust the position as needed
+      double y = center.dy + (radius - 30) * sin(angle);
+
+      textPainter.text = TextSpan(
+        text: '$i',
+        style: const TextStyle(
+          color: Color(0xff1b1d2c),
+          fontWeight: FontWeight.w900,
+          fontSize: 16,
+        ),
+      );
+
+      textPainter.layout();
+      textPainter.paint(canvas,
+          Offset(x - textPainter.width / 2, y - textPainter.height / 2));
     }
   }
 
