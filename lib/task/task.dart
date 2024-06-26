@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_day_43/task/clock_center.dart';
 import 'package:flutter_day_43/task/hour_painter.dart';
@@ -26,30 +25,23 @@ class _TaskState extends State<Task> {
   void initState() {
     super.initState();
 
+    /// Initialize tickers based on current time
+    DateTime now = DateTime.now();
+    secondTicker = (2 * pi * now.second) / 60;
+    minuteTicker = (2 * pi * now.minute) / 60;
+    hourTicker = (2 * pi * now.hour) / 12 + (2 * pi * now.minute) / (12 * 60);
+
     /// Second Ticker
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (kDebugMode) {
-        print("Second: ${timer.tick}");
-      }
-      secondTicker += pi * 2 / 60;
-      setState(() {});
-    });
+    Timer.periodic(const Duration(seconds: 1),
+        (timer) => setState(() => secondTicker += pi * 2 / 60));
 
     /// Minute Ticker
-    Timer.periodic(const Duration(minutes: 1), (timer) {
-      if (kDebugMode) {
-        print("Minute: ${timer.tick}");
-      }
-      minuteTicker += pi * 2 / 60;
-    });
+    Timer.periodic(
+        const Duration(minutes: 1), (timer) => minuteTicker += pi * 2 / 60);
 
     /// Hour Ticker
-    Timer.periodic(const Duration(hours: 1), (timer) {
-      if (kDebugMode) {
-        print("Hour: ${timer.tick}");
-      }
-      hourTicker += pi * 2 / 60;
-    });
+    Timer.periodic(
+        const Duration(hours: 1), (timer) => hourTicker += pi * 2 / 60);
   }
 
   @override
